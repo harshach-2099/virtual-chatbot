@@ -7,6 +7,8 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Profile from './components/Profile';
 import ChatHistory from './components/ChatHistory';
+import FetchDemo from './components/FetchDemo';
+import FetchDemoAsync from './components/FetchDemoAsync';
 
 function App(){
   return(
@@ -18,6 +20,8 @@ function App(){
       <Route path="/contact" element={<Contact />}/>
       <Route path="/profile" element={<Profile />}/>
       <Route path="/chat-history" element={<ChatHistory />}/>
+      <Route path="/FetchDemo" element={<FetchDemo/>} />
+      <Route path="/FetchDemoAsync" element={<FetchDemoAsync/>} />
       </Routes>
       <Footer />
       </BrowserRouter>

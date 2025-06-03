@@ -11,7 +11,7 @@ function ChatbotBody(){
     function handleMessageChange(event){
         setMessage(event.target.value);
     }
-    function handleSendMessage(){
+    async function handleSendMessage(){
         if(!message.trim()){
             alert("please enter a message")
             return;
@@ -24,7 +24,32 @@ function ChatbotBody(){
                 };
         console.log("New chat message:",newChatMessage);
         setMessages([...messages, newChatMessage]);
+       
         setMessage('');
+        try{
+            console.log('sending message to backend:', message);
+            const response=await fetch('http://localhost:3001/api/chat',{
+                method: 'POST',
+                headers:{'content-Type':'application/json',},
+                body: JSON.stringify({message: message}),
+            });
+            const data= await response.json();
+            console.log('Response from backend:', data);
+            const botMessage={
+                text: data.reply,
+                user: 'Chatbot',
+                timestamp:new Date().toLocaleString()
+            };
+            setMessages(prevMessages=>[...prevMessages, botMessage]);
+        }catch (error){
+            console.error('Error sending message to API:', error);
+            const errorMessage={
+                text: 'Sorry, there was an errorcommunicating with the chatbot. please try again',
+                user: 'system',
+                timestamp: new Date().toLocaleString()
+            };
+            setMessages(prevMessages=> [...prevMessages, errorMessage]);
+        }
         setUsername('');
         setDate('');
         setTime(''); 
